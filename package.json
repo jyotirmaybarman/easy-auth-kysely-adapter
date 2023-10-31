@@ -1,5 +1,5 @@
 {
-  "name": "easy-auth-adapter-starter",
+  "name": "easy-auth-kysely-adapter",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -16,5 +16,8 @@
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "kysely": "^0.26.3"
   }
 }
