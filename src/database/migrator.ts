@@ -18,16 +18,19 @@ export async function migrateToLatest(db: Kysely<any>, client: "postgres" | "mys
       migrationFolder: path.join(__dirname, 'migrations', client),
     }),
   })
-
-  if(refresh) await migrator.migrateDown()
+  
+  if(refresh){
+    const { error, results  } = await migrator.migrateDown()
+    if(!error) console.log("Easy-Auth: Dropped `users` table");
+  }
 
   const { error, results } = await migrator.migrateToLatest()
 
   results?.forEach((it) => {
     if (it.status === 'Success') {
-      console.log(`Sucess: Migration "${it.migrationName}" was executed successfully`)
+      console.log(`Easy-Auth: Migration "${it.migrationName}" was executed successfully`)
     } else if (it.status === 'Error') {
-      console.error(`Error: Failed to execute migration "${it.migrationName}"`)
+      console.error(`Easy-Auth: Failed to execute migration "${it.migrationName}"`)
     }
   })
 

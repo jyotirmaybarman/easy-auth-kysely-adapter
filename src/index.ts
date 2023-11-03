@@ -23,7 +23,7 @@ export class KyselyAdapter implements DatabaseAdapterInterface {
     
     this.db = new Kysely<Database>({ dialect });
 
-    if(config.migrate) migrateToLatest(this.db, config.client)
+    if(config.migrate||config.refresh) migrateToLatest(this.db, config.client, config.refresh)
     
     this.db.introspection.getTables({ withInternalKyselyTables: true }).then(_tables => {    
       console.log("Easy-Auth: Module initialized successfully");
