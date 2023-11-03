@@ -19,8 +19,7 @@ export interface DatabaseAdapterInterface {
    */
   updateUser(
     filter: Partial<UserType>,
-    data: Partial<UserType>,
-    options?: { filterType: "or" | "and" }
+    data: Partial<UserType>
   ): Promise<UserType>;
 
   /**
@@ -29,7 +28,7 @@ export interface DatabaseAdapterInterface {
    * It either deletes an user or throws an error
    * @returns user
    */
-  deleteUser(filter: Partial<UserType>, options?: { filterType: "or" | "and" }): Promise<UserType>;
+  deleteUser(filter: Partial<UserType>): Promise<UserType>;
 
   /**
    * 
@@ -37,5 +36,5 @@ export interface DatabaseAdapterInterface {
    * It either finds an user or returns null
    * @returns user | null
    */
-  findUser(filter: Partial<UserType>, select?: (keyof UserType)[], options?: { filterType: "or" | "and" }): Promise<UserType | undefined>;
+  findUser(filter: Partial<UserType>, select?: (keyof UserType)[]): Promise<UserType | undefined>;
 }

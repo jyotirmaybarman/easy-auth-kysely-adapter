@@ -16,8 +16,4 @@ export interface UserTable {
   reset_token?: string | null
   verified?: boolean
   verification_token?: string | null
-  access_key?: string | null
-  refresh_key?: string | null
-  access_token?: string | null
-  refresh_token?: string | null
 }

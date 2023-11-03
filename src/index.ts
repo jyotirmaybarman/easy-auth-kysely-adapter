@@ -41,35 +41,32 @@ export class KyselyAdapter implements DatabaseAdapterInterface {
     return user as UserType;
   }
 
-
-  async findUser(filter: Partial<UserType>, select?: (keyof UserType)[], options: { filterType: "or" | "and" } = { filterType: "and" }): Promise<UserType | undefined> {
+  async findUser(filter: Partial<UserType>, select?: (keyof UserType)[]): Promise<UserType | undefined> {
     let query = this.db.selectFrom("users");
     select?.length ? select.forEach((str) => (query = query.select(str))) : (query = query.selectAll());
-    query = this.updateQuery(filter, query, options);
+    query = this.updateQuery(filter, query);
     const user = await query.executeTakeFirst();
     return user as UserType;
   }
 
-  async deleteUser(filter: Partial<UserType>, options: { filterType: "or" | "and" } = { filterType: "and" }): Promise<UserType> {
+  async deleteUser(filter: Partial<UserType>): Promise<UserType> {
     let query = this.db.deleteFrom("users");
-    query = this.updateQuery(filter, query, options);
+    query = this.updateQuery(filter, query);
     const user = await query.returningAll().executeTakeFirstOrThrow();
     return user as UserType;
   }
 
-  async updateUser(filter: Partial<UserType>, data: Partial<Omit<UserType, "created_at" | "updated_at">>, options: { filterType: "or" | "and" } = { filterType: "and" }): Promise<UserType> {
+  async updateUser(filter: Partial<UserType>, data: Partial<Omit<UserType, "created_at" | "updated_at">>): Promise<UserType> {
     let query = this.db.updateTable("users");
-    query = this.updateQuery(filter, query, options);
+    query = this.updateQuery(filter, query);
     const user = await query.set(data).returningAll().executeTakeFirstOrThrow();
     return user as UserType;
   }
 
-  private updateQuery(filter: Partial<UserType>, query: any, options: { filterType: "or" | "and" } = { filterType: "and" }) {
-    if(options.filterType == "and"){
-      Object.keys(filter).forEach(key => (query = query.where(key, "=", filter[key as keyof UserType])));
-    }else{
-      query = query.where((eb:any) => eb.or( Object.keys(filter).map(key => `${key}, "=", ${filter[key as keyof UserType]}`)))
-    }
+  private updateQuery(filter: Partial<UserType>, query: any) {
+    Object.keys(filter).forEach(
+      (key) => (query = query.where(key, "=", filter[key as keyof UserType]))
+    );
     return query;
   }
 }
