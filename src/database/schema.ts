@@ -10,6 +10,7 @@ export interface UserTable {
   middle_name?: string
   last_name: string
   email:string
+  new_email?: string | null
   created_at?: ColumnType<Date, string | undefined, never>
   updated_at?: ColumnType<Date, string | undefined, never>
   password: string

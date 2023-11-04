@@ -4,6 +4,7 @@ export type UserType = {
     middle_name: string
     last_name: string
     email:string
+    new_email: string | null
     created_at: Date
     updated_at: Date
     password: string
