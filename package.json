@@ -1,5 +1,5 @@
 {
-  "name": "easy-auth-kysely-adapter",
+  "name": "@jyotirmay/easy-auth-kysely-adapter",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
