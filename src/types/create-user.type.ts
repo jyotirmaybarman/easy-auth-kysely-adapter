@@ -1,6 +1,6 @@
 export type CreateUserType = {
     first_name: string;
-    middle_name?: string;
+    middle_name?: string | null;
     last_name: string;
     password: string;
     email: string;

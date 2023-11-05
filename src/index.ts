@@ -32,12 +32,12 @@ export class KyselyAdapter implements DatabaseAdapterInterface {
     })
   }
 
-  async createUser(data: CreateUserType): Promise<UserType> {
+  async createUser(data: CreateUserType): Promise<UserType | undefined> {
     const user = await this.db
       .insertInto("users")
       .values(data)
       .returningAll()
-      .executeTakeFirstOrThrow();
+      .executeTakeFirst();
     return user as UserType;
   }
 
@@ -49,17 +49,17 @@ export class KyselyAdapter implements DatabaseAdapterInterface {
     return user as UserType;
   }
 
-  async deleteUser(filter: Partial<UserType>): Promise<UserType> {
+  async deleteUser(filter: Partial<UserType>): Promise<UserType | undefined> {
     let query = this.db.deleteFrom("users");
     query = this.updateQuery(filter, query);
-    const user = await query.returningAll().executeTakeFirstOrThrow();
+    const user = await query.returningAll().executeTakeFirst();
     return user as UserType;
   }
 
-  async updateUser(filter: Partial<UserType>, data: Partial<Omit<UserType, "created_at" | "updated_at">>): Promise<UserType> {
+  async updateUser(filter: Partial<UserType>, data: Partial<Omit<UserType, "created_at" | "updated_at">>): Promise<UserType | undefined> {
     let query = this.db.updateTable("users");
     query = this.updateQuery(filter, query);
-    const user = await query.set(data).returningAll().executeTakeFirstOrThrow();
+    const user = await query.set(data).returningAll().executeTakeFirst();
     return user as UserType;
   }
 
